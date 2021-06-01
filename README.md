@@ -9,6 +9,7 @@ Final Project for UW EEP 520 Spring 2021
   -  The Y coordinate system is upside down which causes confusion.
   -  Running the simulation causes my computer to heat up and slows everything down! This slows down development a lot!
   -  Creating multiple instances of classes tied there states together. Meaning when one stopped all stopped. I worked around this by creating different classes for each follower.
+  -  I could not get the follower to stop during it's trip AND start back on its path once there was space in front of it. I implementated this code within the during method but that did not work. I had to create a brake method / transition so the follower would stop and start again. I had to create one for each of the three paths.
 
 # How to Install and Run the Code
 Run the following after cloning the repo
