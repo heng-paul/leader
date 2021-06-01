@@ -23,4 +23,6 @@ Then navigate to `http://localhost` to see the simulation.
 
 You can press `Ctrl-C` to stop the enviro server.
 
-# Acknowledges of sources of Infomation or Code used
+# Acknowledges of Sources of Infomation or Code used
+Code is an alteration of the following:
+`https://github.com/tbonaciUW/EEP_520_Spring2021/tree/main/week9/wanderers`
