@@ -31,7 +31,16 @@
                 "y": -30, 
                 "theta": 0
             }
-        }                                            
+        },
+        {
+            "definition": "defs/follower3.json",
+            "style": { "fill": "blue", "stroke": "black" },
+            "position": {
+                "x": -200, 
+                "y": -30, 
+                "theta": 0
+            }
+        }                                                  
     ],
 
     "statics": [

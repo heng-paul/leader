@@ -1,5 +1,5 @@
-#ifndef __FOLLOWER2_AGENT__H
-#define __FOLLOWER2_AGENT__H 
+#ifndef __FOLLOWER3_AGENT__H
+#define __FOLLOWER3_AGENT__H 
 
 #include <string>
 #include <math.h>
@@ -24,7 +24,7 @@ namespace {
             // or just keep going to the stop.
             // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
-                emit(Event("first_brakes2"));
+                emit(Event("first_brakes3"));
             }
             else {
                 move_toward(xcoor, ycoor);
@@ -32,7 +32,7 @@ namespace {
             // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reach the first stop!";
-                emit(Event("go_second2"));
+                emit(Event("go_second3"));
             } 
         
         }
@@ -56,7 +56,7 @@ namespace {
             // or just keep going to the stop.
             // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
-                emit(Event("second_brakes2"));
+                emit(Event("second_brakes3"));
             }
             else {
                 move_toward(xcoor, ycoor);
@@ -65,7 +65,7 @@ namespace {
             // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reached the second stop!";
-                emit(Event("go_third2"));
+                emit(Event("go_third3"));
             }
         }
         void exit(const Event& e) {}
@@ -89,7 +89,7 @@ namespace {
             // or just keep going to the stop.
             // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
-                emit(Event("second_brakes2"));
+                emit(Event("second_brakes3"));
             }
             else {
                 move_toward(xcoor, ycoor);
@@ -98,7 +98,7 @@ namespace {
             // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reached the third stop!";
-                emit(Event("go_first2"));
+                emit(Event("go_first3"));
             }
         }
         void exit(const Event& e) {}
@@ -117,7 +117,7 @@ namespace {
 
             // Start up again once there is space in front
             if (sensor_value(0) > 80) {
-                emit(Event("first_go2"));
+                emit(Event("first_go3"));
             }      
         }
         void exit(const Event& e) {}
@@ -135,7 +135,7 @@ namespace {
 
             // Start up again once there is space in front
             if (sensor_value(0) > 80) {
-                emit(Event("second_go2"));
+                emit(Event("second_go3"));
             }      
         }
         void exit(const Event& e) {}
@@ -153,7 +153,7 @@ namespace {
 
             // Start up again once there is space in front
             if (sensor_value(0) > 80) {
-                emit(Event("third_go2"));
+                emit(Event("third_go3"));
             }      
         }
         void exit(const Event& e) {}
@@ -161,69 +161,69 @@ namespace {
         std::string tick_name;
     };
 
-    class FollowerController2 : public StateMachine, public AgentInterface {
+    class FollowerController3 : public StateMachine, public AgentInterface {
 
         public:
-        FollowerController2() : StateMachine() {
+        FollowerController3() : StateMachine() {
 
-            set_initial(first_stop2);
+            set_initial(first_stop3);
             tick_name = "tick_" + std::to_string(rand()%999); // use an agent specific generated 
                                                                // event name in case there are 
                                                                // multiple instances of this class
 
             // Add all possible transitions and tick names
-            add_transition("go_second2", first_stop2, second_stop2);
-            add_transition("first_brakes2", first_stop2, first_brakes2);
-            add_transition("first_go2", first_brakes2, first_stop2);
+            add_transition("go_second3", first_stop3, second_stop3);
+            add_transition("first_brakes3", first_stop3, first_brakes3);
+            add_transition("first_go3", first_brakes3, first_stop3);
 
-            add_transition("go_third2", second_stop2, third_stop2);
-            add_transition("second_brakes2", second_stop2, second_brakes2);
-            add_transition("second_go2", second_brakes2, second_stop2);
+            add_transition("go_third3", second_stop3, third_stop3);
+            add_transition("second_brakes3", second_stop3, second_brakes3);
+            add_transition("second_go3", second_brakes3, second_stop3);
 
-            add_transition("go_first2", third_stop2, first_stop2);
-            add_transition("third_brakes2", third_stop2, third_brakes2);
-            add_transition("third_go2", third_brakes2, third_stop2);
+            add_transition("go_first3", third_stop3, first_stop3);
+            add_transition("third_brakes3", third_stop3, third_brakes3);
+            add_transition("third_go3", third_brakes3, third_stop3);
 
-            first_stop2.set_tick_name("go_second2");
-            first_stop2.set_tick_name("first_brakes2");
-            first_stop2.set_tick_name("first_go2");
+            first_stop3.set_tick_name("go_second3");
+            first_stop3.set_tick_name("first_brakes3");
+            first_stop3.set_tick_name("first_go3");
 
-            second_stop2.set_tick_name("go_third2");
-            second_stop2.set_tick_name("second_brakes2");
-            second_stop2.set_tick_name("second_go2");
+            second_stop3.set_tick_name("go_third3");
+            second_stop3.set_tick_name("second_brakes3");
+            second_stop3.set_tick_name("second_go3");
 
-            third_stop2.set_tick_name("go_first2");
-            third_stop2.set_tick_name("third_brakes2");
-            third_stop2.set_tick_name("third_go2");
+            third_stop3.set_tick_name("go_first3");
+            third_stop3.set_tick_name("third_brakes3");
+            third_stop3.set_tick_name("third_go3");
 
         }
 
         // Class to head to the next stop
-        FirstStop first_stop2;
-        SecondStop second_stop2;
-        ThirdStop third_stop2;
+        FirstStop first_stop3;
+        SecondStop second_stop3;
+        ThirdStop third_stop3;
 
         // Class to slow down when too close to the one in front
-        FirstBrakes first_brakes2;
-        SecondBrakes second_brakes2;
-        ThirdBrakes third_brakes2;
+        FirstBrakes first_brakes3;
+        SecondBrakes second_brakes3;
+        ThirdBrakes third_brakes3;
 
         std::string tick_name;
 
     };
 
-    class Follower2 : public Agent {
+    class Follower3 : public Agent {
 
         public:
-        Follower2(json spec, World& world) : Agent(spec, world) {
-            add_process(fw2);
+        Follower3(json spec, World& world) : Agent(spec, world) {
+            add_process(fw3);
         }
 
-        FollowerController2 fw2;
+        FollowerController3 fw3;
 
     };
 
-    DECLARE_INTERFACE(Follower2);
+    DECLARE_INTERFACE(Follower3);
 
 }
 

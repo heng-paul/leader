@@ -14,18 +14,22 @@ namespace {
         public:
         void entry(const Event& e) {}
         void during() { 
+            // Tolerance of how close we need to get
+            // Coordinates for the positon
             double tolerance = 3.0;
             double xcoor = 250;
             double ycoor = 250;
-            //std::cout << sensor_value(0);
-            //move_toward(xcoor, ycoor);
 
+            // Brakes if we get too close to the block in front
+            // or just keep going to the stop.
+            // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
                 emit(Event("first_brakes"));
             }
             else {
                 move_toward(xcoor, ycoor);
             }
+
             // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reach the first stop!";
@@ -38,60 +42,20 @@ namespace {
         std::string tick_name;
     };
 
-    // First Brake
-    class FirstBrakes : public State, public AgentInterface {
-        public:
-        void entry(const Event& e) {}
-        void during() { 
-            track_velocity(0, 0);
-            if (sensor_value(0) > 80) {
-                emit(Event("first_go"));
-            }      
-        }
-        void exit(const Event& e) {}
-        void set_tick_name(std::string s) { tick_name = s; }
-        std::string tick_name;
-    };
-
-    // Second Brake
-    class SecondBrakes : public State, public AgentInterface {
-        public:
-        void entry(const Event& e) {}
-        void during() { 
-            track_velocity(0, 0);
-            if (sensor_value(0) > 80) {
-                emit(Event("second_go"));
-            }      
-        }
-        void exit(const Event& e) {}
-        void set_tick_name(std::string s) { tick_name = s; }
-        std::string tick_name;
-    };
-
-    // Third Brake
-    class ThirdBrakes : public State, public AgentInterface {
-        public:
-        void entry(const Event& e) {}
-        void during() { 
-            track_velocity(0, 0);
-            if (sensor_value(0) > 80) {
-                emit(Event("third_go"));
-            }      
-        }
-        void exit(const Event& e) {}
-        void set_tick_name(std::string s) { tick_name = s; }
-        std::string tick_name;
-    };
-
     // Second Stop
     class SecondStop : public State, public AgentInterface {
         public:
         void entry(const Event& e) { rate = rand() % 2 == 0 ? 2 : -2; }
         void during() { 
+            // Tolerance of how close we need to get
+            // Coordinates for the positon
             double tolerance = 3.0;
             double xcoor = -250;
             double ycoor = 250;
 
+            // Brakes if we get too close to the block in front
+            // or just keep going to the stop.
+            // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
                 emit(Event("second_brakes"));
             }
@@ -99,6 +63,7 @@ namespace {
                 move_toward(xcoor, ycoor);
             }
 
+            // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reached the second stop!";
                 emit(Event("go_third"));
@@ -115,11 +80,15 @@ namespace {
         public:
         void entry(const Event& e) { rate = rand() % 2 == 0 ? 2 : -2; }
         void during() { 
+            // Tolerance of how close we need to get
+            // Coordinates for the positon
             double tolerance = 3.0;
             double xcoor = 0;
             double ycoor = 0;
-            //std::cout << sensor_value(0);
-
+            
+            // Brakes if we get too close to the block in front
+            // or just keep going to the stop.
+            // Once we get there move to the next stop.
             if (sensor_value(0) < 60) {
                 emit(Event("second_brakes"));
             }
@@ -127,6 +96,7 @@ namespace {
                 move_toward(xcoor, ycoor);
             }
 
+            // Move to next
             if ( (position().x - xcoor) < tolerance && (position().x - xcoor) > - tolerance && (position().y - ycoor) < tolerance && (position().y - ycoor) > - tolerance)  {
                 std::cout << "Reached the third stop!";
                 emit(Event("go_first"));
@@ -138,6 +108,61 @@ namespace {
         std::string tick_name;        
     };
 
+    // First Brake
+    class FirstBrakes : public State, public AgentInterface {
+        public:
+        void entry(const Event& e) {}
+        void during() { 
+            // Start to brake
+            track_velocity(0, 0);
+
+            // Start up again once there is space in front
+            if (sensor_value(0) > 80) {
+                emit(Event("first_go"));
+            }      
+        }
+        void exit(const Event& e) {}
+        void set_tick_name(std::string s) { tick_name = s; }
+        std::string tick_name;
+    };
+
+    // Second Brake
+    class SecondBrakes : public State, public AgentInterface {
+        public:
+        void entry(const Event& e) {}
+        void during() { 
+            // Start to brake
+            track_velocity(0, 0);
+
+            // Start up again once there is space in front
+            if (sensor_value(0) > 80) {
+                emit(Event("second_go"));
+            }      
+        }
+        void exit(const Event& e) {}
+        void set_tick_name(std::string s) { tick_name = s; }
+        std::string tick_name;
+    };
+
+    // Third Brake
+    class ThirdBrakes : public State, public AgentInterface {
+        public:
+        void entry(const Event& e) {}
+        void during() { 
+            // Start to brake
+            track_velocity(0, 0);
+
+            // Start up again once there is space in front
+            if (sensor_value(0) > 80) {
+                emit(Event("third_go"));
+            }      
+        }
+        void exit(const Event& e) {}
+        void set_tick_name(std::string s) { tick_name = s; }
+        std::string tick_name;
+    };
+
+
     class FollowerController : public StateMachine, public AgentInterface {
 
         public:
@@ -148,6 +173,7 @@ namespace {
                                                                // event name in case there are 
                                                                // multiple instances of this class
 
+            // Add all possible transitions and tick names
             add_transition("go_second", first_stop, second_stop);
             add_transition("first_brakes", first_stop, first_brakes);
             add_transition("first_go", first_brakes, first_stop);
