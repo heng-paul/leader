@@ -12,7 +12,7 @@ Final Project for UW EEP 520 Spring 2021
 
 # How to Install
 Run the following
-'''
+'''shell
 docker run -p80:80 -p8765:8765 -v $PWD:/source -it klavins/enviro:alpha bash
 esm start
 '''
