@@ -10,13 +10,17 @@ Final Project for UW EEP 520 Spring 2021
   -  Running the simulation causes my computer to heat up and slows everything down! This slows down development a lot!
   -  Creating multiple instances of classes tied there states together. Meaning when one stopped all stopped. I worked around this by creating different classes for each follower.
 
-# How to Install
-Run the following
+# How to Install and Run the Code
+Run the following after cloning the repo
 ```
 docker run -p80:80 -p8765:8765 -v $PWD:/source -it klavins/enviro:alpha bash
 esm start
-```
 
-# How to Run the Code
+make
+enviro
+```
+Then navigate to `http://localhost` to see the simulation.
+
+You can press `Ctrl-C` to stop the enviro server.
 
 # Acknowledges of sources of Infomation or Code used
